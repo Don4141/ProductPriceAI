@@ -10,6 +10,8 @@ CHUNK_SIZE = 1000
 cpu_count = os.cpu_count()
 WORKERS = max(cpu_count - 1, 1)
 
+DATASET_REPO = "McAuley-Lab/Amazon-Reviews-2023"
+DATASET_REVISION = "d0a762100fdcf7e420bab24f4bb9179876a0222f" 
 
 class ItemLoader:
     def __init__(self, category):
@@ -58,11 +60,16 @@ class ItemLoader:
         start = datetime.now()
         print(f"Loading dataset {self.category}", flush=True)
         self.dataset = load_dataset(
-            "McAuley-Lab/Amazon-Reviews-2023",
-            f"raw_meta_{self.category}",
-            split="full",
-            trust_remote_code=True,
+          "parquet",
+          data_files={
+            "full":(
+            f"hf://datasets/{DATASET_REPO}@{DATASET_REVISION}/"
+            f"raw_meta_{self.category}/*.parquet"
+            )
+          },
+            split="full"
         )
+        
         results = self.load_in_parallel(workers)
         finish = datetime.now()
         print(
