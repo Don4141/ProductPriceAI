@@ -2,11 +2,11 @@ from pricer.items import Item
 import json
 import re
 
-MIN_CHARS = 600
+MIN_CHARS = 500
 MIN_PRICE = 0.5
-MAX_PRICE = 999.49
+MAX_PRICE = 1000
 MAX_TEXT_EACH = 3000
-MAX_TEXT_TOTAL = 4000
+MAX_TEXT_TOTAL = 3500
 
 REMOVALS = [
     "Part Number",
@@ -19,16 +19,21 @@ REMOVALS = [
 
 def simplify(text_list) -> str:
     """
+    Convert a list of text strings into clean text and limit its length.
     Return a simplified string without too much whitespace and limited to MAX_TEXT characters
     """
-    return (
-        str(text_list)
-        .replace("\n", " ")
-        .replace("\r", "")
-        .replace("\t", "")
-        .replace("  ", " ")
-        .strip()[:MAX_TEXT_EACH]
-    )
+    text = " ".join(text_list)
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()[:MAX_TEXT_EACH]
+    
+    #(
+        #str(text_list)
+        #.replace("\n", " ")
+        #.replace("\r", "")
+        #.replace("\t", "")
+        #.replace("  ", " ")
+        #.strip()[:MAX_TEXT_EACH])
 
 
 def scrub(title, description, features, details) -> str:

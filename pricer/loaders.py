@@ -5,7 +5,7 @@ from concurrent.futures import ProcessPoolExecutor
 from pricer.parser import parse
 import os
 
-CHUNK_SIZE = 1000
+CHUNK_SIZE = 1000 #process the dataset 1000 records at a time
 
 cpu_count = os.cpu_count()
 WORKERS = max(cpu_count - 1, 1)
