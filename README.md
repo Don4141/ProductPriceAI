@@ -1,2 +1,2 @@
 # ProductPriceAI
-LLM/ML system for predicting product prices from its descriptions
+Machine learning and LLM-based system for predicting product prices from textual descriptions.
