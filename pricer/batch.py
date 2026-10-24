@@ -1,12 +1,11 @@
 import os
 from groq import Groq
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from pathlib import Path
 import json
 import pickle
 from tqdm.notebook import tqdm
 
-load_dotenv(override=True)
 groq = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 MODEL = "openai/gpt-oss-20b"
