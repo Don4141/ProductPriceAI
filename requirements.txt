@@ -1,0 +1,6 @@
+litellm
+groq
+python-dotenv
+datasets
+huggingface_hub
+tqdm
