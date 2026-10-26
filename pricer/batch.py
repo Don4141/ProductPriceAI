@@ -9,9 +9,14 @@ from tqdm.notebook import tqdm
 groq = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 MODEL = "openai/gpt-oss-20b"
-BATCHES_FOLDER = "batches"
-OUTPUT_FOLDER = "output"
-state = Path("batches.pkl")
+DATA_DIR = Path("/content/ProductPriceAI/data/lite")
+BATCHES_FOLDER = DATA_DIR/"batches"
+OUTPUT_FOLDER = DATA_DIR/"output"
+
+for folder in (BATCHES_FOLDER, OUTPUT_FOLDER):
+    folder.mkdir(parents=True, exist_ok=True)
+
+state = DATA_DIR/"batches.pkl"
 
 SYSTEM_PROMPT = """Create a concise description of a product. Respond only in this format. Do not include part numbers.
 Title: Rewritten short precise title
@@ -67,7 +72,7 @@ class Batch:
 
     def send_file(self):
         batch_file = self.batches / self.filename
-        with batch_file.open("rb", encoding="utf-8") as f:
+        with batch_file.open("rb") as f:
             response = groq.files.create(file=f, purpose="batch")
         self.file_id = response.id
 
@@ -140,7 +145,7 @@ class Batch:
 
     @classmethod
     def load(cls, items):
-        with state.open("rb", encoding="utf-8") as f:
+        with state.open("rb") as f:
             cls.batches = pickle.load(f)
         for batch in cls.batches:
             batch.items = items
