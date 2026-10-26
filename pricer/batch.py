@@ -1,6 +1,5 @@
 import os
 from groq import Groq
-#from dotenv import load_dotenv
 from pathlib import Path
 import json
 import pickle
@@ -9,12 +8,9 @@ from tqdm.notebook import tqdm
 groq = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 MODEL = "openai/gpt-oss-20b"
-DATA_DIR = Path("/content/ProductPriceAI/data/lite")
-BATCHES_FOLDER = DATA_DIR/"batches"
-OUTPUT_FOLDER = DATA_DIR/"output"
-
-for folder in (BATCHES_FOLDER, OUTPUT_FOLDER):
-    folder.mkdir(parents=True, exist_ok=True)
+DATA_DIR = Path("/content/ProductPriceAI/data")
+BATCHES_FOLDER = "batches"
+OUTPUT_FOLDER = "output"
 
 state = DATA_DIR/"batches.pkl"
 
@@ -40,7 +36,7 @@ class Batch:
         self.batch_id = None
         self.output_file_id = None
         self.done = False
-        folder = Path("lite") if lite else Path("full")
+        folder = DATA_DIR/("lite" if lite else "full")
         self.batches = folder / BATCHES_FOLDER
         self.output = folder / OUTPUT_FOLDER
         self.batches.mkdir(parents=True, exist_ok=True)
@@ -137,7 +133,7 @@ class Batch:
         items = cls.batches[0].items
         for batch in cls.batches:
             batch.items = None
-        with state.open("wb", encoding="utf-8") as f:
+        with state.open("wb") as f:
             pickle.dump(cls.batches, f)
         for batch in cls.batches:
             batch.items = items
