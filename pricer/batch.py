@@ -104,6 +104,9 @@ class Batch:
 
     @classmethod
     def create(cls, items, lite):
+        cls.batches = []
+        for index, item in enumerate(items):
+          item.id = index
         for start in range(0, len(items), cls.BATCH_SIZE):
             end = min(start + cls.BATCH_SIZE, len(items))
             batch = Batch(items, start, end, lite)
