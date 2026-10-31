@@ -175,19 +175,27 @@ class Tester:
             )
         )
 
-        # Title with final stats
+        #Title with final stats
         final_mean = running_means[-1]
         final_ci = ci[-1]
-        title = f"{self.title} Error: ${final_mean:,.2f} ± ${final_ci:,.2f}"
 
         fig.update_layout(
-            title=title,
+            title=dict(text=self.title, x=0.12, xanchor="left", font=dict(size=16)),
             xaxis_title="Number of Datapoints",
             yaxis_title="Average Absolute Error ($)",
             width=1000,
             height=360,
+            margin=dict(l=120, r=80, t=115, b=50),
             template="plotly_white",
             showlegend=False,
+        )
+
+        fig.add_annotation(x=0, y=1.12, xref="paper", yref="paper",
+            text=(f"MAE: {final_mean:,.2f} USD | " f"95% CI: +/- {final_ci:,.2f} USD"),
+            showarrow=False,
+            xanchor="left",
+            yanchor="bottom",
+            font=dict(size=16)
         )
 
         fig.show()
