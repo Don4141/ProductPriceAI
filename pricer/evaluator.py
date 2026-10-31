@@ -211,8 +211,10 @@ class Tester:
                 self.errors.append(error)
                 self.colors.append(color)
                 print(f"{COLOR_MAP[color]}${error:.0f} ", end="")
-        self.report()
-
+        print(f"\nCompleted {len(self.guesses)}, predictions.")
+        #self.report() #Generate both plots
 
 def evaluate(function, data, size=DEFAULT_SIZE, workers=WORKERS):
-    Tester(function, data, size=size, workers=workers).run()
+    tester = Tester(function, data, size=size, workers=workers)
+    tester.run()
+    return tester
