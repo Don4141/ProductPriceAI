@@ -7,8 +7,6 @@ from itertools import accumulate
 import math
 from tqdm.notebook import tqdm
 from concurrent.futures import ThreadPoolExecutor
-# Render as a static PNG for GitHub compatibility
-from IPython.display import display, Image
 
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -182,12 +180,12 @@ class Tester:
         final_ci = ci[-1]
 
         fig.update_layout(
-            title=dict(text=self.title, x=0.02, xanchor="left", font=dict(size=16)),
+            title=dict(text=self.title, x=0.12, xanchor="left", font=dict(size=16)),
             xaxis_title="Number of Datapoints",
             yaxis_title="Average Absolute Error ($)",
-            width=450,
-            height=250,
-            margin=dict(l=80, r=40, t=110, b=70),
+            width=1000,
+            height=360,
+            margin=dict(l=120, r=80, t=115, b=50),
             template="plotly_white",
             showlegend=False,
         )
@@ -200,12 +198,8 @@ class Tester:
             font=dict(size=14)
         )
 
-        #fig.show(renderer="png")
-        png_bytes = fig.to_image(format="png", width=850, height=450, scale=2)
-        display(Image(data=png_bytes))
-        print("Figure width:", fig.layout.width)
-        print("Figure height:", fig.layout.height)
-
+        fig.show()
+      
     def report(self):
         average_error = sum(self.errors) / self.size
         mse = mean_squared_error(self.truths, self.guesses)
