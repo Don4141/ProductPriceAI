@@ -7,6 +7,8 @@ from itertools import accumulate
 import math
 from tqdm.notebook import tqdm
 from concurrent.futures import ThreadPoolExecutor
+# Render as a static PNG for GitHub compatibility
+from IPython.display import display, Image
 
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -198,7 +200,9 @@ class Tester:
             font=dict(size=16)
         )
 
-        fig.show()
+        #fig.show(renderer="png")
+        png_bytes = fig.to_image(format="png", scale=2)
+        display(Image(data=png_bytes))
 
     def report(self):
         average_error = sum(self.errors) / self.size
