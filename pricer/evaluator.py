@@ -182,12 +182,12 @@ class Tester:
         final_ci = ci[-1]
 
         fig.update_layout(
-            title=dict(text=self.title, x=0.12, xanchor="left", font=dict(size=16)),
+            title=dict(text=self.title, x=0.02, xanchor="left", font=dict(size=16)),
             xaxis_title="Number of Datapoints",
             yaxis_title="Average Absolute Error ($)",
-            width=1000,
-            height=360,
-            margin=dict(l=120, r=80, t=115, b=50),
+            width=450,
+            height=250,
+            margin=dict(l=80, r=40, t=110, b=70),
             template="plotly_white",
             showlegend=False,
         )
@@ -197,12 +197,14 @@ class Tester:
             showarrow=False,
             xanchor="left",
             yanchor="bottom",
-            font=dict(size=16)
+            font=dict(size=14)
         )
 
         #fig.show(renderer="png")
-        png_bytes = fig.to_image(format="png", scale=2)
+        png_bytes = fig.to_image(format="png", width=850, height=450, scale=2)
         display(Image(data=png_bytes))
+        print("Figure width:", fig.layout.width)
+        print("Figure height:", fig.layout.height)
 
     def report(self):
         average_error = sum(self.errors) / self.size
