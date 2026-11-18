@@ -51,15 +51,66 @@ class Tester:
             return "orange"
         else:
             return "red"
+    
+    @staticmethod
+    def get_true_price(datapoint):
+        """
+        Extract the actual product price from either:
+        - A Hugging Face prompt-completion dictionary
+        - A dictionary containing a price field
+        - A custom Item object
+        """
+        if isinstance(datapoint, dict):
+            if "completion" in datapoint:
+                return float(datapoint["completion"])
+            if "price" in datapoint:
+                return float(datapoint["price"])
+            raise KeyError(
+                "Datapoint must contain 'completion' or 'price'."
+            )
+        return float(datapoint.price)
+
+    @staticmethod
+    def get_title(datapoint):
+        """
+        Extract product title from either:
+        - Original Item objects
+        - Hugging Face prompt-completion dictionaries
+        """
+
+        if isinstance(datapoint, dict):
+
+            if "title" in datapoint:
+                return str(datapoint["title"])
+
+            prompt = datapoint.get("prompt", "")
+
+            match = re.search(
+                r"^Title:\s*(.+)$",
+                prompt,
+                flags=re.MULTILINE
+            )
+
+            if match:
+                return match.group(1).strip()
+
+            return "Unknown Product"
+
+        return str(datapoint.title)
+
 
     def run_datapoint(self, i):
         datapoint = self.data[i]
         value = self.predictor(datapoint)
         guess = self.post_process(value)
-        truth = datapoint.price
+        #truth = datapoint.price
+        truth = self.get_true_price(datapoint)
         error = abs(guess - truth)
         color = self.color_for(error, truth)
-        title = datapoint.title if len(datapoint.title) <= 40 else datapoint.title[:40] + "..."
+        title = self.get_title(datapoint) 
+        if len(title) > 40: 
+            title = title[:40] + "..."
+        #title = datapoint.title if len(datapoint.title) <= 40 else datapoint.title[:40] + "..."
         return title, guess, truth, error, color
 
     def chart(self, title):
