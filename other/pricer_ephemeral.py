@@ -10,16 +10,14 @@ image = Image.debian_slim().pip_install(
 secrets = [modal.Secret.from_name("huggingface-secret")]
 
 # Constants
-
-GPU = "T4"
+GPU = "GPU"
 BASE_MODEL = "meta-llama/Llama-3.2-3B"
 PROJECT_NAME = "price"
-HF_USER = "ed-donner"  # your HF name here! Or use mine if you just want to reproduce my results.
-RUN_NAME = "2025-11-28_18.47.07"
+HF_USER = "sadjei65320"
+RUN_NAME = "2026-11-17_07.26.49"
+REVISION = "fb60e36f4c90db6e6594bba323b57ea50173beec"
 PROJECT_RUN_NAME = f"{PROJECT_NAME}-{RUN_NAME}"
-REVISION = "b19c8bfea3b6ff62237fbb0a8da9779fc12cefbd"
 FINETUNED_MODEL = f"{HF_USER}/{PROJECT_RUN_NAME}"
-
 
 @app.function(image=image, secrets=secrets, gpu=GPU, timeout=1800)
 def price(description: str) -> float:
