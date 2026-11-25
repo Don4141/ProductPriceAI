@@ -4,3 +4,5 @@ python-dotenv
 datasets
 huggingface_hub
 tqdm
+modal
+chromadb

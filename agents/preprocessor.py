@@ -12,11 +12,16 @@ Description: 1 sentence description
 Details: 1 sentence on features"""
 
 class Preprocessor:
+    """
+      Preprocesses raw product descriptions using an LLM to generate
+      concise, structured product summaries while tracking input tokens, 
+      output tokens and API costs.
+      """
     def __init__(
         self,
         model_name=DEFAULT_MODEL_NAME,
         reasoning_effort=DEFAULT_REASONING_EFFORT,
-        base_url=None,
+        base_url=None
     ):
         self.total_input_tokens = 0
         self.total_output_tokens = 0
@@ -34,7 +39,7 @@ class Preprocessor:
             messages=messages,
             model=self.model_name,
             reasoning_effort=self.reasoning_effort,
-            api_base=self.base_url,
+            api_base=self.base_url
         )
         self.total_input_tokens += response.usage.prompt_tokens
         self.total_output_tokens += response.usage.completion_tokens
