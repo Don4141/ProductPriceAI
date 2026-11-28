@@ -8,17 +8,15 @@ from agents.agent import Agent
 class FrontierAgent(Agent):
     name = "Frontier Agent"
     color = Agent.BLUE
-
-    MODEL = "gpt-4o-mini"
+    MODEL = "gpt-5.1"
 
     def __init__(self, collection):
         """
-        Set up this instance by connecting to OpenAI or DeepSeek, to the Chroma Datastore,
-        And setting up the vector encoding model
+        Initialize the OpenAI client, ChromaDB collection andsentence embedding model.
         """
         self.log("Initializing Frontier Agent")
         self.client = OpenAI()
-        self.MODEL = "gpt-5.1"
+        #self.MODEL = "gpt-5.1"
         self.log("Frontier Agent is setting up with OpenAI")
         self.collection = collection
         self.model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")

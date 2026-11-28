@@ -2,7 +2,7 @@ import modal
 from modal import Volume, Image
 # Setup - define our infrastructure with code!
 
-app = modal.App("pricer-service")
+app = modal.App("productpriceai-llama-3-2-3b")
 image = Image.debian_slim().pip_install(
     "huggingface", "torch", "transformers", "bitsandbytes", "accelerate", "peft"
 )

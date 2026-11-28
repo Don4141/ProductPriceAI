@@ -1,0 +1,3 @@
+products_vectorstore/
+__pycache__/
+*.pyc

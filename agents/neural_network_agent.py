@@ -1,5 +1,5 @@
 from agents.agent import Agent
-from agents.deep_neural_network import DeepNeuralNetworkInference
+from agents.artificial_neural_network import ArtificialNeuralNetworkInference
 
 
 class NeuralNetworkAgent(Agent):
@@ -8,18 +8,18 @@ class NeuralNetworkAgent(Agent):
 
     def __init__(self):
         """
-        Initialize this object by loading in the saved model weights
-        and the SentenceTransformer vector encoding model
+        Initialize the inference model and load in the saved trained ANN model 
+        weights and the HashingVectorizer from Hugging Face.
         """
         self.log("Neural Network Agent is initializing")
-        self.neural_network = DeepNeuralNetworkInference()
+        self.neural_network = ArtificialNeuralNetworkInference()
         self.neural_network.setup()
-        self.neural_network.load("deep_neural_network.pth")
+        self.neural_network.load("sadjei65320/ProductPriceAI-ArtificialNeuralNetwork")
         self.log("Neural Network Agent is ready and weights are loaded")
 
     def price(self, description: str) -> float:
         """
-        Use the Deep Neural Network to estimate the price of the described item
+        Use the Artificial Neural Network to estimate the price of the described item
         :param description: the product to be estimated
         :return: the price as a float
         """
